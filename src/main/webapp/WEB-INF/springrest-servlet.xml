@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+	http://www.springframework.org/schema/rabbit 
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+	<mvc:annotation-driven />
+	<aop:aspectj-autoproxy />
+
+
+	<context:component-scan base-package="com.galaxy" />
+	<rabbit:connection-factory id="connectionFactory"
+		host="localhost" virtual-host="/" username="guest" password="guest" />
+
+	<!-- Give this application admin rights for creating the queues and exchanges 
+		(if they’re not yet created). -->
+	<rabbit:admin connection-factory="connectionFactory"
+		auto-startup="true" />
+	<!-- Declare queue(s) -->
+	<rabbit:queue name="mainWorkQueue" durable="true"
+		auto-delete="false" auto-declare="true" />
+	<rabbit:queue name="retryQueue" durable="true"
+		auto-delete="false" auto-declare="true" />
+	<rabbit:queue name="deadMessageQueue" durable="true"
+		auto-delete="false" auto-declare="true" />
+	<rabbit:direct-exchange name="syncExchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="mainWorkQueue" />
+			<rabbit:binding queue="retryQueue" />
+			<rabbit:binding queue="deadMessageQueue" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	<!-- Declare the template that will be used for sending and consuming messages -->
+	<rabbit:template id="mainWorkQueueTemplate"
+		connection-factory="connectionFactory" message-converter="serializerMessageConverter" />
+
+	<bean id="jsonMessageConverter"
+		class="org.springframework.amqp.support.converter.JsonMessageConverter">
+	</bean>
+	<bean id="serializerMessageConverter"
+		class="org.springframework.amqp.support.converter.SerializerMessageConverter">
+	</bean>
+
+	<bean id="rabbitListenerContainerFactory"
+		class="org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="concurrentConsumers" value="10" />
+		<property name="maxConcurrentConsumers" value="100" />
+	</bean>
+</beans>  

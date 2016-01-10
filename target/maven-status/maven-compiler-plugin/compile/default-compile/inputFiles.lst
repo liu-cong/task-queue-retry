@@ -1,0 +1,13 @@
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/mq/MyProducer.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/service/interfaces/IDataService.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/SpringRestController.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/mq/MyConsumer.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/scheduler/SyncJob.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/scheduler/SyncAdapterAdvice.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/mq/ConsumerWithAnnoatation.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/scheduler/SyncTask.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/mq/MQManager.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/mq/Producer.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/scheduler/Queueable.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/service/DataService.java
+/home/cong/projects/workspace/mqsyncadapter/src/main/java/com/galaxy/Constants.java
